@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>Loja - Categorias - Nova</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <link rel="stylesheet" href="js/libs/twitter-bootstrap/css/bootstrap.css" type="text/css">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <h1>Loja</h1>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h2>Nova Categoria</h2>
+                    <form>
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" class="form-control" id="nome" required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="descricao">Descrição</label>
+                            <textarea class="form-control" id="descricao" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <a href="index.html" class="btn btn-secondary">Voltar</a>
+                            <button type="button" class="btn btn-primary" id="criar">Criar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="feedback" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="feedbackTitle">feedbackTitle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="feedbackBody">feedbackBody</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/libs/jquery/jquery.js" type="text/javascript"></script>
+        <script src="js/libs/twitter-bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="js/libs/twitter-bootstrap/js/bootstrap.bundle.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#criar').click(function () {
+                    $.ajax({
+                        url: 'webresources/categorias',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            nome: $('#nome').val(),
+                            descricao: $('#descricao').val()
+                        }),
+                        success: function (data, textStatus, jqXHR) {
+                            $('#feedbackTitle').html('Sucesso');
+                            $('#feedbackBody').html('Categoria criada com sucesso!');
+                            $('#feedback .btn').removeClass('btn-danger').addClass('btn-success');
+                            $('#feedback').on('hidden.bs.modal', function (e) {
+                                window.location.replace('index.html');
+                            });
+                            $('#feedback').modal('show');
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#feedbackTitle').html('Erro');
+                            $('#feedbackBody').html('Erro ao criar a categoria!<br/>Tente novamente!');
+                            $('#feedback .btn').removeClass('btn-success').addClass('btn-danger');
+                            $('#feedback').on('hidden.bs.modal', function (e) {
+                            });
+                            $('#feedback').modal('show');
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
