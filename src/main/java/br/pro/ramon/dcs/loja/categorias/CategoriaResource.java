@@ -1,6 +1,7 @@
 package br.pro.ramon.dcs.loja.categorias;
 
 import br.pro.ramon.dcs.loja.daos.DaoException;
+import br.pro.ramon.dcs.loja.daos.DaoFactory;
 import java.net.URI;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -18,7 +19,7 @@ public class CategoriaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategorias() {
         try {
-            CategoriaDao dao = new CategoriaDaoJdbc();
+            CategoriaDao dao = DaoFactory.getCategoriaDao();
             List<Categoria> categorias = dao.findAll();
             return Response.ok(new Categorias(categorias)).build();
         } catch (DaoException ex) {
@@ -30,7 +31,7 @@ public class CategoriaResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createCategoria(Categoria categoria) {
         try {
-            CategoriaDao dao = new CategoriaDaoJdbc();
+            CategoriaDao dao = DaoFactory.getCategoriaDao();
             dao.create(categoria);
             return Response.created(URI.create("categorias/" + categoria.getId())).build();
         } catch (DaoException ex) {

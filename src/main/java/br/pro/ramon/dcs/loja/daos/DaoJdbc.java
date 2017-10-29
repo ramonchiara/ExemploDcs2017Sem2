@@ -8,10 +8,17 @@ import java.sql.SQLException;
 
 public abstract class DaoJdbc {
 
-    private String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private String url = "jdbc:sqlserver://localhost;database=db";
-    private String user = "user";
-    private String pass = "pass";
+    private String driver;
+    private String url;
+    private String user;
+    private String pass;
+
+    public DaoJdbc(String driver, String url, String user, String pass) {
+        this.driver = driver;
+        this.url = url;
+        this.user = user;
+        this.pass = pass;
+    }
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName(driver);

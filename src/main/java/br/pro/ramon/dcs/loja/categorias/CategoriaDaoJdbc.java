@@ -12,6 +12,10 @@ import java.util.List;
 
 public class CategoriaDaoJdbc extends DaoJdbc implements CategoriaDao {
 
+    public CategoriaDaoJdbc(String driver, String url, String user, String pass) {
+        super(driver, url, user, pass);
+    }
+
     @Override
     public List<Categoria> findAll() throws DaoException {
         List<Categoria> categorias = new ArrayList<>();
